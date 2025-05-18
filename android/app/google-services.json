@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "150880202324",
+    "project_id": "flyerat-e7328",
+    "storage_bucket": "flyerat-e7328.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:150880202324:android:2b46e39e2dcb1d6c6407c1",
+        "android_client_info": {
+          "package_name": "com.offers.flyerat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBs41WX-g01gsq_HpR1hHiBf753hCsLoH0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
