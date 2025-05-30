@@ -316,6 +316,7 @@ class _FlyerDetailsState extends State<FlyerDetails> {
                 } else {
                   AppUtils.shareAppLink(controller.flyer.value?.title ?? "");
                   // confirmBottomSheet();
+
                 }
               },
             ),
