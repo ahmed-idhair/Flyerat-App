@@ -421,4 +421,7 @@ class LangKeys {
   static const String loyaltyPoints = 'loyaltyPoints';
   static const String videoViewer = 'videoViewer';
   static const String imageViewer = 'imageViewer';
+  static const String changeLocation = 'changeLocation';
+  static const String selectLocation = 'selectLocation';
+  static const String noCommentsAvailable = 'noCommentsAvailable';
 }

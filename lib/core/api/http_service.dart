@@ -258,7 +258,8 @@ class HttpService extends GetxService {
       case 401:
         return _extractValidationErrors(error);
       case 404:
-        return "❌ Not Found";
+        return _extractValidationErrors(error);
+        // return "❌ Not Found";
       case 405:
         return "❌ Method Not Allowed";
       case 500:

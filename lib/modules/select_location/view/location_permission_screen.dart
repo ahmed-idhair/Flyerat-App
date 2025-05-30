@@ -26,7 +26,8 @@ class LocationPermissionScreen extends StatelessWidget {
     return WillPopScope(
       onWillPop: () async {
         // Prevent going back
-        return fromLocationChange || controller.storage.hasLocationData();
+        return false;
+        // return fromLocationChange || controller.storage.hasLocationData();
       },
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -141,9 +142,8 @@ class LocationPermissionScreen extends StatelessWidget {
                     isLoading: controller.isLoadingLocation.value,
                     onPressed: () async {
                       // Navigate to appropriate screen
-
                       if (fromLocationChange) {
-                        Get.back();
+                        Get.offAllNamed(AppRoutes.home);
                       } else {
                         if (controller.storage.isIntro()) {
                           if (controller.storage.isAuth()) {

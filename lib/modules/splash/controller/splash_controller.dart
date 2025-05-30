@@ -19,7 +19,7 @@ import '../../../core/api/http_service.dart';
 import '../../../core/models/app_config/app_config.dart';
 import '../../base_controller.dart';
 import '../../select_location/controller/user_location_controller.dart';
-import '../../select_location/widget/location_bottom_sheet.dart';
+import '../../select_location/widget/location_screen.dart';
 
 class SplashController extends BaseController {
   var hasInternet = false.obs; // Observable for internet status
@@ -92,7 +92,6 @@ class SplashController extends BaseController {
           // Check if update is needed
           bool needsUpdate = await isUpdateAvailable();
           updateAvailable.value = needsUpdate;
-
           // Check if update is forced
           forceUpdate.value =
               needsUpdate && getConfigValue('app_update_force') == '1';
@@ -110,7 +109,8 @@ class SplashController extends BaseController {
           if (!storage.hasLocationData() && !locationSheetShown.value) {
             locationSheetShown.value = true;
             // Show location bottom sheet
-            showLocationBottomSheet();
+            Get.offAll(() => LocationScreen(isChangingLocation: false));
+            // showLocationBottomSheet();
           } else {
             // Normal app flow
             navigateToNextScreen();
@@ -250,7 +250,7 @@ class SplashController extends BaseController {
                               !locationSheetShown.value) {
                             locationSheetShown.value = true;
                             // Show location bottom sheet
-                            showLocationBottomSheet();
+                            Get.offAll(() => LocationScreen(isChangingLocation: false));
                           } else {
                             // Normal app flow
                             navigateToNextScreen();
@@ -292,37 +292,37 @@ class SplashController extends BaseController {
     }
   }
 
-  void showLocationBottomSheet() {
-    // Initialize the location controller
-    final locationController = Get.put(UserLocationController());
-
-    // Show bottom sheet
-    Get.bottomSheet(
-      LocationBottomSheet(),
-      isScrollControlled: true,
-      enableDrag: false,
-      isDismissible: false,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(16.r),
-          topRight: Radius.circular(16.r),
-        ),
-      ),
-    ).then((_) {
-      // After bottom sheet is closed, continue with app flow
-      navigateToNextScreen();
-    });
-
-    // Additional measure - capture back button press at app level
-    SystemChannels.navigation.setMethodCallHandler((call) async {
-      if (call.method == 'popRoute' && locationSheetShown.value) {
-        // Do nothing, effectively blocking the back button
-        return;
-      }
-      // Let other navigation events pass through
-      SystemChannels.navigation.invokeMethod('popRoute');
-    });
-  }
+  // void showLocationBottomSheet() {
+  //   // Initialize the location controller
+  //   final locationController = Get.put(UserLocationController());
+  //
+  //   // Show bottom sheet
+  //   Get.bottomSheet(
+  //     LocationBottomSheet(),
+  //     isScrollControlled: true,
+  //     enableDrag: false,
+  //     isDismissible: false,
+  //     shape: RoundedRectangleBorder(
+  //       borderRadius: BorderRadius.only(
+  //         topLeft: Radius.circular(16.r),
+  //         topRight: Radius.circular(16.r),
+  //       ),
+  //     ),
+  //   ).then((_) {
+  //     // After bottom sheet is closed, continue with app flow
+  //     navigateToNextScreen();
+  //   });
+  //
+  //   // Additional measure - capture back button press at app level
+  //   SystemChannels.navigation.setMethodCallHandler((call) async {
+  //     if (call.method == 'popRoute' && locationSheetShown.value) {
+  //       // Do nothing, effectively blocking the back button
+  //       return;
+  //     }
+  //     // Let other navigation events pass through
+  //     SystemChannels.navigation.invokeMethod('popRoute');
+  //   });
+  // }
 
   void navigateToNextScreen() {
     SystemChannels.navigation.setMethodCallHandler(null);

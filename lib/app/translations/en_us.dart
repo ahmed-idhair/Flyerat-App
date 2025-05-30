@@ -424,4 +424,7 @@ const Map<String, String> en = {
   LangKeys.loyaltyPoints: "Loyalty Points",
   LangKeys.videoViewer: "Video Viewer",
   LangKeys.imageViewer: "Image Viewer",
+  LangKeys.changeLocation: "Change Location",
+  LangKeys.selectLocation: "Select Location",
+  LangKeys.noCommentsAvailable: "No Comments Available",
 };

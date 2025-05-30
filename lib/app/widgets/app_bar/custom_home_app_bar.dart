@@ -10,7 +10,7 @@ import 'package:offers/app/utils/app_utils.dart';
 
 import '../../../modules/public_controller.dart';
 import '../../../modules/select_location/controller/user_location_controller.dart';
-import '../../../modules/select_location/widget/location_bottom_sheet.dart';
+import '../../../modules/select_location/widget/location_screen.dart';
 import '../common/app_bottom_sheet.dart';
 import '../forms/app_custom_text.dart';
 
@@ -67,7 +67,6 @@ class CustomHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
               Expanded(
                 child: InkWell(
                   onTap: () {
-
                     _showLocationSelectionSheet(context);
                   },
                   child: Column(
@@ -164,51 +163,17 @@ class CustomHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   void _showLocationSelectionSheet(BuildContext context) {
-    // Check if the controller is already registered
-    if (!Get.isRegistered<UserLocationController>()) {
-      Get.put(UserLocationController());
-    }
+    // // Check if the controller is already registered
+    // if (!Get.isRegistered<UserLocationController>()) {
+    //   Get.put(UserLocationController());
+    // }
 
-    final locationController = Get.find<UserLocationController>();
+    // final locationController = Get.find<UserLocationController>();
 
-    // Load current values from storage or PublicController
-    final publicController = locationController.storage;
-    locationController.selectedCountry.value =
-        publicController.getSelectedCountry();
-    locationController.selectedCity.value = publicController.getSelectedCity();
-
-    // Show bottom sheet
-    Get.bottomSheet(
-      LocationBottomSheet(isChangingLocation: true,),
-      isScrollControlled: true,
-      enableDrag: true,
-      isDismissible: true,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(16.r),
-          topRight: Radius.circular(16.r),
-        ),
-      ),
-    ).then((_) {
-      // After bottom sheet is closed, update the values in PublicController
-      if (locationController.selectedCountry.value != null &&
-          locationController.selectedCity.value != null) {
-        // Save to storage
-        locationController.storage.saveSelectedCountry(
-          locationController.selectedCountry.value!,
-        );
-        locationController.storage.saveSelectedCity(
-          locationController.selectedCity.value!,
-        );
-
-        // Update location coordinates if available
-        if (locationController.hasLocationPermission.value) {
-          locationController.storage.saveUserLocation(
-            locationController.latitude.value,
-            locationController.longitude.value,
-          );
-        }
-      }
-    });
+    // Navigate to LocationScreen instead of showing bottom sheet
+    Get.to(
+      LocationScreen(isChangingLocation: true),
+      // transition: Transition.rightToLeft,
+    );
   }
 }

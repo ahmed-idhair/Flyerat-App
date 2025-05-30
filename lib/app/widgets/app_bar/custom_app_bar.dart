@@ -9,12 +9,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   String title;
   bool? isShowBack;
   bool? centerTitle;
+  VoidCallback? onBack;
   Color bgColor;
   final List<Widget>? actions;
 
   CustomAppBar({
     required this.title,
     this.isShowBack = true,
+    this.onBack,
     this.bgColor = Colors.white,
     this.centerTitle = false,
     super.key,
@@ -38,9 +40,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     size: 20.0.r,
                     color: Colors.black,
                   ),
-                  onPressed: () async {
-                    Get.back();
-                  },
+                  onPressed:
+                      onBack ??
+                      () async {
+                        Get.back();
+                      },
                 )
                 : null,
         titleSpacing: 0,

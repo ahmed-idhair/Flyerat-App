@@ -13,7 +13,7 @@ class Product {
   dynamic discount;
   dynamic newPrice;
   bool? hasDiscount;
-  int? discountPercentage;
+  dynamic discountPercentage;
   String? startDate;
   String? endDate;
   List<MediaData>? media;

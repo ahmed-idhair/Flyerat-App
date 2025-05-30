@@ -314,7 +314,8 @@ class _FlyerDetailsState extends State<FlyerDetails> {
                 if (controller.storage.isAuth()) {
                   controller.flyerShare();
                 } else {
-                  confirmBottomSheet();
+                  AppUtils.shareAppLink(controller.flyer.value?.title ?? "");
+                  // confirmBottomSheet();
                 }
               },
             ),

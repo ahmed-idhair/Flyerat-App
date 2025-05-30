@@ -73,7 +73,7 @@ class CommentsScreen extends StatelessWidget {
                         },
                         noItemsFoundIndicatorBuilder:
                             (_) => AppEmptyState(
-                              message: LangKeys.noFlyersAvailable.tr,
+                              message: LangKeys.noCommentsAvailable.tr,
                               // img: "ic_no_notification",
                             ),
                         newPageErrorIndicatorBuilder:

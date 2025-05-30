@@ -65,7 +65,6 @@ class PartnerDetailsController extends BaseController {
   Future<void> getPartnerProfile() async {
     try {
       isLoading(true);
-
       if (partnerId.value <= 0) {
         pagingController.error = LangKeys.anErrorFetchingData.tr;
         return;
@@ -78,7 +77,6 @@ class PartnerDetailsController extends BaseController {
         var response = ApiResponse.fromJsonModel(result.data, Partner.fromJson);
         if (response.isSuccess && response.data != null) {
           partner = response.data!;
-
           update(['updatePartner']);
         } else {
           pagingController.error = response.message;
@@ -89,7 +87,9 @@ class PartnerDetailsController extends BaseController {
     } catch (error) {
       pagingController.error = error.toString();
     } finally {
+
       isLoading(false);
+      update(['updatePartner']);
     }
   }
 
