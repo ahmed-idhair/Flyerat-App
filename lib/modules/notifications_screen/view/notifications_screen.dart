@@ -14,6 +14,7 @@ import 'package:offers/modules/notifications_screen/view/widget/notification_ite
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../app/config/app_theme.dart';
+import '../../../app/routes/app_routes.dart';
 import '../../../app/widgets/common/app_empty_state.dart';
 import '../../../app/widgets/common/app_loading_view.dart';
 import '../../../app/widgets/common/app_network_image.dart';
@@ -210,12 +211,33 @@ class NotificationsScreen extends StatelessWidget {
         ),
         // Live items for this date
         ...items.map(
-          (item) => NotificationItem(notification: item, onTap: () {
-
-          }),
+          (item) => NotificationItem(
+            notification: item,
+            onTap: () {
+              if (item.isRead == true) {
+                if (item.modelType == r"App\Models\Flyer" &&
+                    item.modelId != null &&
+                    item.modelId != 0) {
+                  Get.toNamed(
+                    AppRoutes.flyerDetails,
+                    arguments: {"id": item.modelId},
+                  );
+                } else if (item.data != null &&
+                    item.data?.modelType == r"App\Models\Flyer" &&
+                    item.data?.modelId != null &&
+                    item.data?.modelId != 0) {
+                  Get.toNamed(
+                    AppRoutes.flyerDetails,
+                    arguments: {"id": item.data?.modelId},
+                  );
+                }
+              } else {
+                controller.makeReadNotifications(item);
+              }
+            },
+          ),
         ),
       ],
     );
   }
-
 }

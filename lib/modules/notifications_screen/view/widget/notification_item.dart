@@ -22,7 +22,7 @@ class NotificationItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: notification.isRead == true ? null : onTap,
+      onTap: onTap,
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.h),
         decoration: BoxDecoration(

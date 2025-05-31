@@ -17,86 +17,77 @@ import '../../../app/widgets/common/app_network_image.dart';
 import '../../../app/widgets/common/app_shimmer_loading.dart';
 import '../../../app/widgets/forms/app_custom_text.dart';
 import '../../../app/widgets/forms/app_search_field.dart';
-import '../../../core/models/favorites/favorite.dart';
 import '../../../core/models/products/product.dart';
 import '../../../core/models/home/category.dart' as cat;
+import '../../flyer_details/view/flyer_details.dart';
 import '../../flyer_details/view/media_viewer_screen.dart';
-import '../controller/favorites_controller.dart';
+import '../controller/search_products_controller.dart';
 
-class FavoritesScreen extends StatelessWidget {
-  FavoritesScreen({super.key});
+class SearchProducts extends StatelessWidget {
+  SearchProducts({super.key});
 
-  FavoritesController controller = Get.put(FavoritesController());
+  SearchProductsController controller = Get.put(SearchProductsController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [_buildHeader(), Expanded(child: _buildProductsList())],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHeader() {
-    return Container(
-      // padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        // boxShadow: [
-        //   BoxShadow(
-        //     color: Colors.black.withValues(alpha: 0.05),
-        //     blurRadius: 2,
-        //     offset: Offset(0, 1),
-        //   ),
-        // ],
-      ),
-      child: Row(
+      appBar: CustomAppBar(title: LangKeys.search.tr),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AppCustomText(
-            text: LangKeys.allWishlists.tr,
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w500,
-          ),
-          Spacer(),
-          Obx(
-            () => AppCustomText(
-              text: '( ${controller.totalResult} ${LangKeys.results.tr} )',
-              fontSize: 14.sp,
-              decoration: TextDecoration.underline,
-              fontWeight: FontWeight.w500,
-              color: AppTheme.primaryColor,
+          // Search bar
+          Padding(
+            padding: EdgeInsetsDirectional.all(16.r),
+            child: AppSearchField(
+              hintText: LangKeys.search.tr,
+              controller: controller.searchController,
+              showActionButton: true,
+              onChanged: (value) {
+                if (value.isEmpty) {
+                  controller.clearSearch();
+                }
+              },
+              onSubmitted: () {
+                if (controller.searchController.text.isNotEmpty) {
+                  controller.performSearch();
+                }
+                // Do something when search is submitted
+              },
+              onActionButtonPressed: () {
+                controller.searchController.text = "";
+                controller.pagingController.refresh();
+              },
             ),
           ),
+          // Category title in Partner
+          Expanded(child: _buildProductsList()),
         ],
       ),
     );
   }
 
   Widget _buildProductsList() {
-    return GetBuilder<FavoritesController>(
+    return GetBuilder<SearchProductsController>(
       id: 'updateList',
       builder: (controller) {
         return RefreshIndicator(
           onRefresh: () async {
+            controller.searchController.text = "";
             controller.pagingController.refresh();
           },
-          child: PagedGridView<int, Favorite>(
+          child: PagedGridView<int, Product>(
             pagingController: controller.pagingController,
-            padding: EdgeInsets.symmetric(horizontal: 0.w, vertical: 16.h),
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2, // 2 items per row
               mainAxisSpacing: 12.h,
               crossAxisSpacing: 12.w,
               childAspectRatio: 0.66, // Adjust this value based on your design
             ),
-            builderDelegate: PagedChildBuilderDelegate<Favorite>(
+            builderDelegate: PagedChildBuilderDelegate<Product>(
               itemBuilder: (context, product, index) {
-                return _buildGridProductItem(product.product!);
+                return _buildGridProductItem(product);
               },
               firstPageErrorIndicatorBuilder: (_) {
                 return AppEmptyState(
@@ -151,7 +142,6 @@ class FavoritesScreen extends StatelessWidget {
   // New method for grid item layout
   Widget _buildGridProductItem(Product product) {
     final discountPercentage = product.discountPercentage ?? 0;
-
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -230,7 +220,9 @@ class FavoritesScreen extends StatelessWidget {
                         }
                       },
                       child: SvgPicture.asset(
-                        AppUtils.getIconPath("ic_fav"),
+                        AppUtils.getIconPath(
+                          product.isFavorite == true ? "ic_fav" : "ic_un_fav",
+                        ),
                         width: 18.w,
                         height: 18.h,
                       ),
@@ -250,8 +242,7 @@ class FavoritesScreen extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                       color: AppTheme.primaryColor,
                     ),
-                    // Old price
-                    // if discounted
+                    // Old price if discounted
                     if (product.hasDiscount ?? false)
                       Expanded(
                         child: Row(

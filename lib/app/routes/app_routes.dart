@@ -28,6 +28,7 @@ class AppRoutes {
   static const pageView = '/page_view';
   static const notifications = '/notifications';
   static const loyaltyQuizScreen = '/loyalty_quiz_screen';
+  static const searchProducts = '/search_products';
 
 
 }

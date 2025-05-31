@@ -55,6 +55,7 @@ class HomePage extends StatelessWidget {
                     controller: controller.searchController,
                     actionIconPath: "ic_refresh",
                     onActionButtonPressed: () {
+                      controller.searchController.text = "";
                       controller.getHome();
                     },
                     onChanged: (value) {
@@ -63,8 +64,16 @@ class HomePage extends StatelessWidget {
                       // }
                     },
                     onSubmitted: () {
-                      // controller.performSearch();
-                      // Do something when search is submitted
+                      print('Log zada');
+                      if (controller.searchController.text.isNotEmpty) {
+                        Get.toNamed(
+                          AppRoutes.searchProducts,
+                          arguments: {
+                            "search": controller.searchController.text,
+                          },
+                        );
+                        controller.searchController.text = "";
+                      }
                     },
                     height: 48.h,
                   ),

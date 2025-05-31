@@ -1,3 +1,4 @@
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:offers/app/translations/lang_keys.dart';
@@ -6,10 +7,12 @@ import 'package:offers/core/models/lives/older.dart';
 import 'package:offers/core/models/notifications/notification_older.dart';
 import 'package:offers/modules/base_controller.dart';
 
+import '../../../app/routes/app_routes.dart';
 import '../../../core/api/api_constant.dart';
 import '../../../core/api/api_response.dart';
 import '../../../core/api/http_service.dart';
 import '../../../core/models/notifications/notifications_data.dart';
+import '../../../core/models/notifications/notifications_obj.dart';
 
 enum NotificationTab { all, read, unread }
 
@@ -142,5 +145,41 @@ class NotificationsController extends BaseController {
   void dispose() {
     pagingController.dispose();
     super.dispose();
+  }
+
+  Future<void> makeReadNotifications(NotificationsObj item) async {
+    try {
+      EasyLoading.show();
+      final result = await httpService.request(
+        url: "${ApiConstant.notifications}/${item.id}/read",
+        method: Method.POST,
+      );
+      if (result != null) {
+        var resp = ApiResponse<void>.fromJson(result.data);
+        if (resp.isSuccess == true) {
+          pagingController.refresh();
+          if (item.modelType == r"App\Models\Flyer" &&
+              item.modelId != null &&
+              item.modelId != 0) {
+            Get.toNamed(
+              AppRoutes.flyerDetails,
+              arguments: {"id": item.modelId},
+            );
+          } else if (item.data != null &&
+              item.data?.modelType == r"App\Models\Flyer" &&
+              item.data?.modelId != null &&
+              item.data?.modelId != 0) {
+            Get.toNamed(
+              AppRoutes.flyerDetails,
+              arguments: {"id": item.data?.modelId},
+            );
+          }
+        } else {
+          // AppToast.error(resp.message ?? "");
+        }
+      }
+    } finally {
+      EasyLoading.dismiss(animation: true);
+    }
   }
 }

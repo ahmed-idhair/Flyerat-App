@@ -1,4 +1,5 @@
 import 'package:offers/core/models/date_at.dart';
+import 'package:offers/core/models/notifications/notification_action.dart';
 
 import '../home/partner.dart';
 
@@ -14,6 +15,7 @@ class NotificationsObj {
   int? modelId;
   String? modelType;
   dynamic actionRoute;
+  NotificationAction? data;
 
   NotificationsObj({
     this.id,
@@ -27,6 +29,7 @@ class NotificationsObj {
     this.modelId,
     this.modelType,
     this.actionRoute,
+    this.data,
   });
 
   factory NotificationsObj.fromJson(Map<String, dynamic> json) =>
@@ -42,6 +45,10 @@ class NotificationsObj {
         modelId: json["model_id"],
         modelType: json["model_type"],
         actionRoute: json["action_route"],
+        data:
+            json["data"] != null
+                ? NotificationAction.fromJson(json["data"])
+                : null,
       );
 
   Map<String, dynamic> toJson() => {
@@ -56,5 +63,6 @@ class NotificationsObj {
     "model_id": modelId,
     "model_type": modelType,
     "action_route": actionRoute,
+    "data": data?.toJson(),
   };
 }

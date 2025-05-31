@@ -19,6 +19,7 @@ import '../../modules/page/view/page_view.dart';
 import '../../modules/partner_details/view/partner_details.dart';
 import '../../modules/products_screen/view/products_screen.dart';
 import '../../modules/profile/view/profile.dart';
+import '../../modules/search_products/view/search_products.dart';
 import '../../modules/select_location/view/location_permission_screen.dart';
 import '../../modules/sign_in/view/sign_in.dart';
 import '../../modules/sign_up/view/sign_up.dart';
@@ -51,6 +52,7 @@ final appPages = [
   GetPage(name: AppRoutes.categoriesScreen, page: () => CategoriesScreen()),
   GetPage(name: AppRoutes.productsScreen, page: () => ProductsScreen()),
   GetPage(name: AppRoutes.loyaltyQuizScreen, page: () => LoyaltyQuizScreen()),
+  GetPage(name: AppRoutes.searchProducts, page: () => SearchProducts()),
   GetPage(
     name: AppRoutes.notificationsScreen,
     page: () => NotificationsScreen(),
@@ -59,10 +61,4 @@ final appPages = [
     name: AppRoutes.locationPermissionScreen,
     page: () => LocationPermissionScreen(),
   ),
-
-  //
-  // ///// Service Provider
-  // GetPage(name: AppRoutes.spHome, page: () => SpHome()),
-  // GetPage(name: AppRoutes.spProfileDisplay, page: () => SpProfileDisplay()),
-  // GetPage(name: AppRoutes.spOrderDetails, page: () => SpOrderDetails()),
 ];
