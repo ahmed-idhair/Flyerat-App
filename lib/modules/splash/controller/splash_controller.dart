@@ -49,23 +49,6 @@ class SplashController extends BaseController {
     }
   }
 
-  // void checkAuth() async {
-  //   // await FcmHelper.initFcm();
-  //   await fcmService.init();
-  //
-  //   // Show splash screen for at least 2 seconds
-  //   await Future.delayed(const Duration(seconds: 2));
-  //
-  //   // Check if location is set
-  //   if (!storage.hasLocationData() && !locationSheetShown.value) {
-  //     locationSheetShown.value = true;
-  //     // Show location bottom sheet
-  //     showLocationBottomSheet();
-  //   } else {
-  //     // Normal app flow
-  //     navigateToNextScreen();
-  //   }
-  // }
 
   // Fetch app configuration and check for updates
   Future<void> checkForUpdates() async {
@@ -191,8 +174,8 @@ class SplashController extends BaseController {
 
   void showUpdateDialog() {
     Get.dialog(
-      WillPopScope(
-        onWillPop: () async => false,
+      PopScope(
+        canPop: false,
         child: Dialog(
           backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(
@@ -292,40 +275,8 @@ class SplashController extends BaseController {
     }
   }
 
-  // void showLocationBottomSheet() {
-  //   // Initialize the location controller
-  //   final locationController = Get.put(UserLocationController());
-  //
-  //   // Show bottom sheet
-  //   Get.bottomSheet(
-  //     LocationBottomSheet(),
-  //     isScrollControlled: true,
-  //     enableDrag: false,
-  //     isDismissible: false,
-  //     shape: RoundedRectangleBorder(
-  //       borderRadius: BorderRadius.only(
-  //         topLeft: Radius.circular(16.r),
-  //         topRight: Radius.circular(16.r),
-  //       ),
-  //     ),
-  //   ).then((_) {
-  //     // After bottom sheet is closed, continue with app flow
-  //     navigateToNextScreen();
-  //   });
-  //
-  //   // Additional measure - capture back button press at app level
-  //   SystemChannels.navigation.setMethodCallHandler((call) async {
-  //     if (call.method == 'popRoute' && locationSheetShown.value) {
-  //       // Do nothing, effectively blocking the back button
-  //       return;
-  //     }
-  //     // Let other navigation events pass through
-  //     SystemChannels.navigation.invokeMethod('popRoute');
-  //   });
-  // }
 
   void navigateToNextScreen() {
-    SystemChannels.navigation.setMethodCallHandler(null);
     if (storage.isIntro()) {
       if (storage.isAuth()) {
         Get.offAllNamed(AppRoutes.home);

@@ -188,7 +188,7 @@ class VerificationCode extends StatelessWidget {
                 100.verticalSpace,
                 Obx(
                   () => AppButton(
-                    color: HexColor("FF1161"),
+                    // color: HexColor("FF1161"),
                     text: LangKeys.confirm.tr,
                     isLoading: controller.isLoadingVerify.value,
                     onPressed: () {

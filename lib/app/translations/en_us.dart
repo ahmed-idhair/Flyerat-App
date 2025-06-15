@@ -427,4 +427,5 @@ const Map<String, String> en = {
   LangKeys.changeLocation: "Change Location",
   LangKeys.selectLocation: "Select Location",
   LangKeys.noCommentsAvailable: "No Comments Available",
+  LangKeys.yourLocation: "Your Location",
 };

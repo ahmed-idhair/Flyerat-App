@@ -424,4 +424,5 @@ class LangKeys {
   static const String changeLocation = 'changeLocation';
   static const String selectLocation = 'selectLocation';
   static const String noCommentsAvailable = 'noCommentsAvailable';
+  static const String yourLocation = 'yourLocation';
 }

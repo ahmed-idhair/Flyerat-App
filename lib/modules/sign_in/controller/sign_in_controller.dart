@@ -77,7 +77,19 @@ class SignInController extends BaseController {
               updateLocation();
               // Get.offAllNamed(AppRoutes.home);
             } else {
-              print('Log asdasd');
+              if (data.data != null &&
+                  data.data?.verification != null &&
+                  data.data?.verification?.token != null &&
+                  data.data?.verification?.token != "") {
+                Get.toNamed(
+                  AppRoutes.verificationCode,
+                  arguments: {
+                    "from": AppRoutes.signIn,
+                    "email": emailController.text,
+                    "token": data.data?.verification?.token,
+                  },
+                );
+              }
             }
           }
         } else {

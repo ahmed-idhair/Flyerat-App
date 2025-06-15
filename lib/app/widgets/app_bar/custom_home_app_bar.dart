@@ -6,6 +6,7 @@ import 'package:offers/app/config/app_theme.dart';
 import 'package:offers/app/extensions/color.dart';
 import 'package:offers/app/routes/app_routes.dart';
 import 'package:offers/app/services/storage_service.dart';
+import 'package:offers/app/translations/lang_keys.dart';
 import 'package:offers/app/utils/app_utils.dart';
 
 import '../../../modules/public_controller.dart';
@@ -15,7 +16,7 @@ import '../common/app_bottom_sheet.dart';
 import '../forms/app_custom_text.dart';
 
 class CustomHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
-  CustomHomeAppBar({Key? key}) : super(key: key);
+  CustomHomeAppBar({super.key});
 
   final publicController = Get.find<StorageService>();
 
@@ -67,7 +68,7 @@ class CustomHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
               Expanded(
                 child: InkWell(
                   onTap: () {
-                    _showLocationSelectionSheet(context);
+                    Get.to(LocationScreen(isChangingLocation: true));
                   },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,7 +76,7 @@ class CustomHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                     mainAxisSize: MainAxisSize.min, // Important for wrapping
                     children: [
                       AppCustomText(
-                        text: "Your Location",
+                        text: LangKeys.yourLocation.tr,
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w400,
                         color: HexColor("898989"),

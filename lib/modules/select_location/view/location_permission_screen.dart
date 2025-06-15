@@ -23,11 +23,24 @@ class LocationPermissionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        // Prevent going back
-        return false;
-        // return fromLocationChange || controller.storage.hasLocationData();
+    return PopScope(
+      canPop: fromLocationChange,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+
+        // إذا لم يكن تغيير موقع ولا توجد بيانات موقع، لا تسمح بالرجوع
+        if (!fromLocationChange && !controller.storage.hasLocationData()) {
+          // اختياري: إظهار رسالة للمستخدم
+          Get.snackbar(
+            "تنبيه",
+            "يجب اختيار الموقع للمتابعة",
+            snackPosition: SnackPosition.BOTTOM,
+          );
+          return;
+        }
+
+        // السماح بالرجوع
+        Get.back();
       },
       child: Scaffold(
         backgroundColor: Colors.white,

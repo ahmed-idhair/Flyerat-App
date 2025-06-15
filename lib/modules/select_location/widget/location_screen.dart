@@ -26,10 +26,23 @@ class LocationScreen extends StatelessWidget {
       controller.resetSelections();
     }
 
-    return WillPopScope(
-      onWillPop: () async {
-        // Only prevent back button during initial setup
-        return !isInitialSetup;
+    return PopScope(
+      canPop: !isInitialSetup,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+
+        // إذا كان الإعداد الأولي، لا تسمح بالرجوع
+        if (isInitialSetup) {
+          Get.snackbar(
+            "تنبيه",
+            "يجب إكمال اختيار الموقع",
+            snackPosition: SnackPosition.BOTTOM,
+          );
+          return;
+        }
+
+        // السماح بالرجوع
+        Get.back();
       },
       child: Scaffold(
         backgroundColor: Colors.white,

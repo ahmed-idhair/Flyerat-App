@@ -20,9 +20,7 @@ Future<void> main() async {
     DeviceOrientation.portraitDown,
   ]);
   // await DateFormatter.init(); // Initialize Arabic locale
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   // if (Platform.isIOS) {
   //   await Firebase.initializeApp(
